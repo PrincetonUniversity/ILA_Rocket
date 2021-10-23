@@ -35,7 +35,7 @@ riscvILA_user::riscvILA_user(int pc_init_val)
     : model(InstrLvlAbs::New("riscv")), // define ila
       pc(model.NewBvState("pc", XLEN)),
       mem(model.NewMemState("mem", MEM_WORD_ADDR_LEN, MEM_WORD)),
-      inst(FetchFromMem(mem, pc(31, 2))),
+      inst(model.NewBvInput("inst", 32)), // inst(FetchFromMem(mem, pc(31, 2))),
 
       opcode(inst(6, 0)), rd(inst(11, 7)), rs1(inst(19, 15)), rs2(inst(24, 20)),
       funct3(inst(14, 12)), funct7(inst(31, 25)), funct12(inst(31, 20)),

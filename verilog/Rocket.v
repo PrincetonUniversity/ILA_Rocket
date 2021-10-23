@@ -306,35 +306,13 @@ module Rocket(
   output [4:0] io_rocc_fpu_resp_bits_exc,
   output  io_rocc_exception,
 
-  // Ibuf inst
-  output [31:0] ibuf_io_inst_0_bits_inst_bits_o,
-  output        ibuf_io_inst_0_valid_o,
-  output        ex_reg_valid_o,
-  output        mem_reg_valid_o,
-  output        wb_valid_o,
-  output        wb_reg_valid_o,
-  output [31:0] wb_reg_inst_o,
-  output [31:0] ex_reg_inst_o,
-  output [31:0] mem_reg_inst_o,
 
-  // Monitor
-  output        ctrl_killd_o,
-  output        ctrl_killx_o,
-  output        ctrl_killm_o,
-
-  // Pc
-  output [31:0] ibuf_io_pc_o,
-  output [31:0] wb_reg_pc_o,
-  output [31:0] first_valid_pc,
-  output        no_first_valid_pc,
 
   // register index
   input  [4:0]  rf_idx_i,
   output [31:0] rf_idx_o,
 
   // idstage bypass network
-  output [31:0] ex_rs_0_o,
-  output [31:0] ex_rs_1_o,
   output        id_rs_0_in_use,
   output        id_rs_1_in_use,
 
@@ -5598,49 +5576,11 @@ assign x29 = T_6545[2];
 assign x30 = T_6545[1];
 assign x31 = T_6545[0];
 
-  assume property (div_io_req_valid == 1'b0);
-  assume property (div_io_resp_valid == 1'b0);
-
-  assume property (bpu_io_xcpt_if == 1'b0);
-  assume property (bpu_io_xcpt_ld == 1'b0);
-  assume property (bpu_io_xcpt_st == 1'b0);
-
-  assume property (bpu_io_debug_if == 1'b0);
-  assume property (bpu_io_debug_ld == 1'b0);
-  assume property (bpu_io_debug_st == 1'b0);
-
-  assume property (~ (ibuf_io_pc_o[1] == 1'b1 && ibuf_io_inst_0_valid == 1'b1 ) | (ctrl_killd == 1'b1) );
-
   assign rf_idx_o = rf_idx_i == 5'd0 ? 32'd0 : T_6545[~rf_idx_i]; 
 
-  assign ibuf_io_pc_o = ibuf_io_pc;
-  assign wb_reg_pc_o  = wb_reg_pc;
-
-  assign ibuf_io_inst_0_bits_inst_bits_o = ibuf_io_inst_0_bits_inst_bits;
-  assign ibuf_io_inst_0_valid_o = ibuf_io_inst_0_valid;
-  assign ex_reg_valid_o = ex_reg_valid;
-  assign mem_reg_valid_o = mem_reg_valid;
-  assign wb_valid_o = wb_valid;
-  assign wb_reg_valid_o = wb_reg_valid;
-  assign wb_reg_inst_o = wb_reg_inst;
-  assign ex_reg_inst_o = ex_reg_inst;
-  assign mem_reg_inst_o = mem_reg_inst;
-
-  assign ctrl_killd_o = ctrl_killd;
-  assign ctrl_killx_o = ctrl_killx;
-  assign ctrl_killm_o = ctrl_killm;
-
-  assign first_valid_pc = wb_valid ? wb_reg_pc : 
-                          mem_reg_valid ? mem_reg_pc:
-                          ex_reg_valid&ex_pc_valid ? ex_reg_pc : 32'h0;
-
-  assign no_first_valid_pc = ~(wb_valid | mem_reg_valid | (ex_reg_valid&ex_pc_valid)  );
 
   assign  id_rs_0_in_use = id_ctrl_rxs1;
   assign  id_rs_1_in_use = id_ctrl_rxs2;
-
-  assign ex_rs_0_o = ex_rs_0;
-  assign ex_rs_1_o = ex_rs_1;
 
 
   // no rvc lemma
@@ -5648,7 +5588,6 @@ assign x31 = T_6545[0];
   always @(posedge clock) begin
     error <= ( mem_reg_rvc & ~ctrl_killm );
   end
-  no_rvc_lemma: assume property ( ~(wb_valid & error) );
 
 
 endmodule

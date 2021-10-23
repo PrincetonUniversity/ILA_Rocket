@@ -1,4 +1,4 @@
-RISC-V ILA
+RISC-V ILA vs Rocket Implementation
 ---------------
 
 User Level ISA : RV32I
