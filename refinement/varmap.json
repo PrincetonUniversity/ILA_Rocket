@@ -104,6 +104,7 @@
 
 
   "assumptions" : [
+    "RTL.csr.reg_misa == 32'h40101105",
     // disable MUL/DIV and ROCC
     "RTL.div_io_req_valid == 1'b0",
     "RTL.div_io_resp_valid == 1'b0",
@@ -117,7 +118,7 @@
     "RTL.bpu_io_debug_st == 1'b0",
 
     // not having rvc
-    " (RTL.ibuf_io_pc[1] == 1'b1 && RTL.ibuf_io_inst_0_valid == 1'b1 ) |-> (RTL.ctrl_killd == 1'b1) "
+    " (RTL.ibuf_io_pc[1] == 1'b1 && RTL.ibuf_io_inst_0_valid == 1'b1 ) |-> (RTL.ctrl_killd == 1'b1) ",
     " ~(RTL.wb_valid && RTL.error) ",
 
     // valid instruction assumptions:
@@ -138,7 +139,7 @@
     // limit 
     " ( #decode# || #afterdecode# ) |-> ( RTL.io_interrupts_debug == 0)",
     "RTL.ibuf_io_inst_0_valid |-> #DECODE_validInstructions#",
-    "RTL.wb_reg_valid |-> #WB_validInstructions#",
+    "RTL.wb_reg_valid |-> #WB_validInstructions#"
 
 
   ],
@@ -182,7 +183,7 @@
       "template" : "phase tracker",
       "event-alias" : {
         "delay_check_point" : "#memresp_check_ready# && ~(#memresp_check_ready# ##1)",
-        "isInstLoad" : "#DECODE_isLoad# @ (#decode# ##1)",
+        "isInstLoad" : "#DECODE_isLoad# @ (#decode# ##1)"
       },
       "rules" : [
         { "name" : "delay_check",
@@ -197,7 +198,7 @@
 
     // tracking memory responses
     "MEMRECORD" : {
-      "refs" : [ "RTL.io_imem_resp_bits_replay", "RTL.io_imem_resp_valid", "RTL.io_imem_resp_valid", "RTL.io_imem_req_valid", "RTL.io_imem_req_bits_pc", "RTL.io_imem_resp_ready", "RTL.io_dmem_req_ready", "RTL.io_dmem_s1_kill", "RTL.io_dmem_req_valid", "RTL.io_dmem_req_bits_addr", "RTL.io_dmem_req_bits_tag", "RTL.io_dmem_req_bits_cmd", "RTL.io_dmem_req_bits_typ", "RTL.io_dmem_req_bits_data", "RTL.io_dmem_s1_data", "#pipeline_ex_monitor#", "#decode#"],
+      "refs" : [ "RTL.io_imem_resp_bits_replay", "RTL.io_imem_resp_valid", "RTL.io_imem_req_valid", "RTL.io_imem_req_bits_pc", "RTL.io_imem_resp_ready", "RTL.io_dmem_req_ready", "RTL.io_dmem_s1_kill", "RTL.io_dmem_req_valid", "RTL.io_dmem_req_bits_addr", "RTL.io_dmem_req_bits_tag", "RTL.io_dmem_req_bits_cmd", "RTL.io_dmem_req_bits_typ", "RTL.io_dmem_req_bits_data", "RTL.io_dmem_s1_data", "#pipeline_ex_monitor#", "#decode#"],
       "defs" : [
         ["load_not_ack_yet", 1, "wire"], ["resp_a_non_monitored_req", 1, "wire"], ["io_imem_req_bits_pc_reg", 32, "reg"], ["io_imem_req_bits_pc_reg_1", 32, "wire"], ["io_imem_req_bits_pc_reg_2", 32, "wire"], ["io_imem_req_bits_pc_reg_3", 32, "wire"], ["io_imem_resp_bits_byte_0", 8, "wire"], ["io_imem_resp_bits_byte_1", 8, "wire"], ["io_imem_resp_bits_byte_2", 8, "wire"], ["io_imem_resp_bits_byte_3", 8, "wire"],
         // and make it random
@@ -211,7 +212,7 @@
         ["dmem_req_rdata", 32, "wire"], ["trans_dmem_req_rdata", 32, "wire"],
         ["io_dmem_resp_bits_addr", 32, "wire" ],  ["io_dmem_resp_bits_tag", 7, "wire" ],  ["io_dmem_resp_bits_cmd", 5, "wire" ],  ["io_dmem_resp_bits_typ", 3, "wire" ],  ["io_dmem_resp_bits_data", 32, "wire" ],  ["io_dmem_resp_bits_has_data", 1, "wire" ],
         ["io_dmem_s2_nack", 1, "wire"],  ["io_dmem_replay_next", 1, "wire"],  ["io_dmem_resp_valid" ,1, "reg"],  ["io_dmem_resp_bits_replay",1,"wire"],  ["io_dmem_ordered",1,"wire"],
-        ["io_imem_resp_bits_pc"  , 32, "wire"], ["io_imem_resp_bits_data", 32, "wire"]
+        ["io_imem_resp_bits_pc"  , 32, "wire"], ["io_imem_resp_bits_data", 32, "wire"],
         ["offset_wr_addr", 2, "wire"],  ["aligned_wr_addr", 32, "wire"],  
         ["aligned_wr_addr0", 32, "wire"], ["aligned_wr_addr1", 32, "wire"], ["aligned_wr_addr2", 32, "wire"], ["aligned_wr_addr3", 32, "wire"], 
         ["aligned_byte_0", 8, "wire"], ["aligned_byte_1", 8, "wire"], ["aligned_byte_2", 8, "wire"], ["aligned_byte_3", 8, "wire"], ["aligned_data", 32, "wire"],  

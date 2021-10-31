@@ -25,27 +25,15 @@ find_package(ilang REQUIRED)
 
 # ---------------------------------------------------------------------------- #
 # TARGET
-# library
-# ---------------------------------------------------------------------------- #
-add_library(${RISCV_RV32I_TARGET}
-  src/helpers.cc
-  src/riscvIla.cc
-)
-
-target_include_directories(${RISCV_RV32I_TARGET} PRIVATE include)
-
-target_link_libraries(${RISCV_RV32I_TARGET} PUBLIC ilang::ilang)
-
-
-# ---------------------------------------------------------------------------- #
-# TARGET
 # executable
 # ---------------------------------------------------------------------------- #
 add_executable(${RISCV_RV32I_TARGET}Exe
   app/main.cc
+  src/helpers.cc
+  src/riscvIla.cc
 )
 
 target_include_directories(${RISCV_RV32I_TARGET}Exe PRIVATE include)
 
-target_link_libraries(${RISCV_RV32I_TARGET}Exe ${RISCV_RV32I_TARGET})
+target_link_libraries(${RISCV_RV32I_TARGET}Exe ilang::ilang)
 

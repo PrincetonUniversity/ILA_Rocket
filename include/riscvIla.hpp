@@ -16,8 +16,9 @@ namespace ilang {
 
 class riscvILA_user {
 
+public:
   Ila model;
-
+protected:
   ExprRef pc;
   ExprRef mem;
   std::vector<ExprRef> GPR; // R0-R31
@@ -45,7 +46,7 @@ protected:
   ExprRef indexIntoGPR(const ExprRef& idxBits);
   void UpdateGPR(InstrRef& inst, const ExprRef& idxBits, const ExprRef& val);
 
-  ExprRef bv(int val) { return BvConst(val, XLEN); }
+  ExprRef bv(unsigned val) { return BvConst(val, XLEN); }
   ExprRef zext(const ExprRef& v) { return ZExt(v, XLEN); }
   ExprRef sext(const ExprRef& v) { return SExt(v, XLEN); }
 
@@ -69,6 +70,7 @@ protected:
 public:
   riscvILA_user(int pc_init_val);
   void addInstructions();
+  
 };
 
 class riscvILA_machine : public riscvILA_user {};

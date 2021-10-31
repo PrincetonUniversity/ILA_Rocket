@@ -13,6 +13,8 @@
                                          io_imem_resp_bits_byte_0
                                          };
     always @(posedge clk) begin
+        if(rst)
+            io_imem_req_bits_pc_reg <= 0;
          else begin
             if (RTL.io_imem_req_valid)  // req is ready all the time!
                 io_imem_req_bits_pc_reg <= RTL.io_imem_req_bits_pc;
@@ -140,10 +142,6 @@
     assign aligned_wr_addr1 = aligned_wr_addr+32'd1;
     assign aligned_wr_addr2 = aligned_wr_addr+32'd2;
     assign aligned_wr_addr3 = aligned_wr_addr+32'd3;
-    assign aligned_byte_0;
-    assign aligned_byte_1;
-    assign aligned_byte_2;
-    assign aligned_byte_3;
 
     assign aligned_data    = {aligned_byte_3,aligned_byte_2, aligned_byte_1,aligned_byte_0 };
     

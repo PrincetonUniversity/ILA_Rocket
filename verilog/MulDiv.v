@@ -304,62 +304,8 @@ module MulDiv(
   assign GEN_33 = T_474 ? io_req_bits_tag : req_tag;
   assign T_499 = state == 3'h5;
   assign T_500 = state == 3'h0;
-`ifdef RANDOMIZE
-  integer initvar;
-  initial begin
-    `ifndef verilator
-      #0.002 begin end
-    `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_14 = {1{$random}};
-  state = GEN_14[2:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_15 = {1{$random}};
-  req_fn = GEN_15[3:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_36 = {1{$random}};
-  req_dw = GEN_36[0:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_37 = {1{$random}};
-  req_in1 = GEN_37[31:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_38 = {1{$random}};
-  req_in2 = GEN_38[31:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_39 = {1{$random}};
-  req_tag = GEN_39[4:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_40 = {1{$random}};
-  count = GEN_40[5:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_41 = {1{$random}};
-  neg_out = GEN_41[0:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_42 = {1{$random}};
-  isMul = GEN_42[0:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_43 = {1{$random}};
-  isHi = GEN_43[0:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_44 = {2{$random}};
-  divisor = GEN_44[32:0];
-  `endif
-  `ifdef RANDOMIZE_REG_INIT
-  GEN_45 = {3{$random}};
-  remainder = GEN_45[65:0];
-  `endif
-  end
-`endif
+
+  
   always @(posedge clock) begin
     if (reset) begin
       state <= 3'h0;
