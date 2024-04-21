@@ -32,7 +32,7 @@ int main() {
   for(auto && f : design_files)
     path_to_design_files.push_back( VerilogPath + f );
 
-  IlaVerilogRefinemetChecker(
+  IlaVerilogRefinementChecker(
     riscvILA.model,
     {},                             // no include
     path_to_design_files,           // rtl design
